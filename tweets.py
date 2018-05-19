@@ -1,4 +1,5 @@
 import tweepy
+import pandas as pd
 from textblob import TextBlob
 
 consumer_key = "MWPfhlK89zKnVZvtISuSvTlyd"
@@ -12,9 +13,18 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.search('fortnite')
+public_tweets = api.search(q="fortnite", geocode="40.714353,-74.00597,20km")
 
+d = []
 for tweet in public_tweets:
-	print(tweet.text)
 	analysis = TextBlob(tweet.text)
-	print(analysis.sentiment)
+	TweetText = tweet.text
+	polarity = analysis.sentiment.polarity
+	subjectivity = analysis.sentiment.subjectivity
+	d.append((TweetText,
+				polarity,
+				subjectivity))
+
+cols=['Tweet','polarity','subjectivity']
+df = pd.DataFrame(d, columns=cols)
+print(df.head)
