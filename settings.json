@@ -1,0 +1,10 @@
+{
+        "user": "dgletts",
+        "pass": "Heavymetal1",
+        "host": "35.231.243.148",
+          "db": "mysql",
+         "csv": "data",
+       "table": "tweets",
+  "project_id": "some-project-id",
+     "dataset": "data-science"
+}
