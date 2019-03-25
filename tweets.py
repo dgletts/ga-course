@@ -12,14 +12,8 @@ TWITTER_CONFIG_FILE = '../auth.yaml'
 with open(TWITTER_CONFIG_FILE, 'r') as config_file:
 	config = yaml.load(config_file)
 
-
-settings = {
-	'user': ''
-}
-
 consumer_key = config['twitter']['consumer_key']
 consumer_secret = config['twitter']['consumer_secret']
-
 access_token = config['twitter']['access_token']
 access_token_secret = config['twitter']['access_token_secret']
 
