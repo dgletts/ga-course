@@ -1,19 +1,27 @@
 import tweepy
 import pandas as pd
 import re
+import time
 from textblob import TextBlob
 from sqlalchemy import create_engine
+import yaml
 import json
+
+TWITTER_CONFIG_FILE = '../auth.yaml'
+
+with open(TWITTER_CONFIG_FILE, 'r') as config_file:
+	config = yaml.load(config_file)
+
 
 settings = {
 	'user': ''
 }
 
-consumer_key = "MWPfhlK89zKnVZvtISuSvTlyd"
-consumer_secret = "mu0csop48M2tKbND2Cvu4HlslncVtbB09jJY5rx8sbYAEwfgeq"
+consumer_key = config['twitter']['consumer_key']
+consumer_secret = config['twitter']['consumer_secret']
 
-access_token = "441556445-BX9Ij1hETlvU53Dx1f2eiiCr29RFTMJfTMK6RVWO"
-access_token_secret = "o2rEjnPXKSAd2bg7JyzB9O4HFBEka2nZ5h7RzlBcL8W9N"
+access_token = config['twitter']['access_token']
+access_token_secret = config['twitter']['access_token_secret']
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -49,7 +57,9 @@ for game in query:
 						game,
 						city))
 
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename = timestr + "_tweets.csv"
 cols=['Tweet','polarity','subjectivity','game','city']
 df = pd.DataFrame(d, columns=cols)
 df = df[['Tweet','polarity','subjectivity','game','city']]
-df.to_csv("all_tweets.csv", encoding='utf-8-sig')
+df.to_csv(filename, encoding='utf-8-sig')
