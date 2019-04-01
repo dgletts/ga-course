@@ -56,4 +56,5 @@ filename = timestr + "_tweets.csv"
 cols=['Tweet','polarity','subjectivity','game','city']
 df = pd.DataFrame(d, columns=cols)
 df = df[['Tweet','polarity','subjectivity','game','city']]
+df.drop_duplicates(['Tweet'], keep='last')
 df.to_csv(filename, encoding='utf-8-sig')
