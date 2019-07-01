@@ -15,5 +15,7 @@ Running an eSports Bar or Cafe can then mean hard decisions given time/space res
 
 [TextBlob](https://textblob.readthedocs.io/en/dev/) Python library used for processing the textual data from retrieved Tweets and perform [sentiment analysis](https://textblob.readthedocs.io/en/dev/quickstart.html#sentiment-analysis)
 
+[Twitch Games API](https://dev.twitch.tv/docs/api/reference#get-games) used to keep analytics on most popular competitive game streams to make sure the games/tournaments you are analyzing stays current to market opinion
+
 ## Example Usage
 ![Animated chart example](/spiritBombChart.gif)

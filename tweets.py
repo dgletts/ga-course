@@ -20,10 +20,11 @@ access_token_secret = config['twitter']['access_token_secret']
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-# geo cities.json setup 
+# get geo for top 50 US cities by population
 json_data=open('cities_trunc.json').read()
 data = json.loads(json_data)
 
+# define twitter API calls by geo coordinates to a 10mi radius
 def get_tweet_payload(d):
 	return {d['city']: '%s,%s,%s' % (d['latitude'], d['longitude'],'10mi')}
 
@@ -33,10 +34,12 @@ while i < len(data):
 	geo.update(get_tweet_payload(data[i]))
 	i += 1
 
+# manually setting queries against set of popular competitive games - leverage twitch_top.py to keep this dynamic
 api = tweepy.API(auth, wait_on_rate_limit=True)
 query = ['fortnite', 'overwatch', 'starcraft', 'dota', 'league of legends', 'CSGO', 'hearthstone' ,'pubg', 'tekken', 'ssbm']
 d = []
 
+# Since we are using Standard APIs we are limited in data volume, adding additional geo regions and/or queries can result in long run-time
 for game in query:
 	for city,coords in geo.items():
 		public_tweets = [status for status in tweepy.Cursor(api.search,q=game, geocode=coords, count=100).items(1000)]
@@ -51,6 +54,7 @@ for game in query:
 						game,
 						city))
 
+# use Pandas to format analyzed tweets into CSV file for appending to a database
 timestr = time.strftime("%Y%m%d-%H%M%S")
 filename = timestr + "_tweets.csv"
 cols=['Tweet','polarity','subjectivity','game','city']
